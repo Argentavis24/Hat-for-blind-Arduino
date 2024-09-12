@@ -1,8 +1,8 @@
 const int Trig = 2;
 const int Echo = 3;
 const int Buzzer = 8;
-const int minThreshold = 10;
-const int maxThreshold = 150;
+const int minThreshold = 15;
+const int maxThreshold = 25;
 
 void setup() {
   Serial.begin(9600);
@@ -14,7 +14,8 @@ void setup() {
 
 void loop() {
 
-  long duration, distance;
+  long duration;
+  int distance;
 
   digitalWrite(Trig, LOW);
   delayMicroseconds(2);
@@ -30,19 +31,19 @@ void loop() {
   Serial.print(distance);
   Serial.println(" cm");
   
-  if (distance>minThreshold){
-    /tone(Buzzer, 100, 200);     //format=tone(Buzzer, frequency, duration(in ms))
+  if (distance<maxThreshold)and(distance>minThreshold){
+    digitalWrite(Buzzer, HIGH);
     delay(100);
-    digitalWrite(Buzzer,LOW);
+    digitalWrite(Buzzer, LOW);
     delay(100);
-  }
-  if (distance<maxThreshold){
-    tone(Buzzer, 100, 200);
-    delay(100);
-    tone(Buzzer, 100, 200);
-    delay(100);
-    
-  }
 
+  }
+  else  {
+    digitalWrite(Buzzer, HIGH);
+    delay(250);
+    digitalWrite(Buzzer, LOW);
+    delay(250);
+
+  }
   delay(250);
 }
