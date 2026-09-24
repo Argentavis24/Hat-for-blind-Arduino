@@ -1,24 +1,19 @@
-// =====================================================
-// BLIND ASSISTIVE HAT - VERSION 2
+// ARDUINO BLIND ASSISTIVE HAT : VER-2
 // Datathon'26 - SRM
-// =====================================================
 
-// Pin definitions
+// Define all pins
 const int Trig = 2;
 const int Echo = 3;
 const int Buzzer = 8;
 
-// Distance limits in centimetres
-const int SAFE_DISTANCE = 100;
+// All distance is in cms
+const int SAFE_DCEISTAN = 100;
 const int WARNING_DISTANCE = 60;
 const int DANGER_DISTANCE = 30;
 const int CRITICAL_DISTANCE = 15;
 const int MIN_DISTANCE = 5;
 
-
-// =====================================================
-// SETUP
-// =====================================================
+// Setup
 
 void setup() {
 
@@ -28,12 +23,12 @@ void setup() {
   pinMode(Echo, INPUT);
   pinMode(Buzzer, OUTPUT);
 
-  // Startup indication
+  // Startup init
   tone(Buzzer, 2000);
-  delay(150);
+  delay(150);                                // In milliseconds
   noTone(Buzzer);
 
-  delay(100);
+  delay(100);                               
 
   tone(Buzzer, 2500);
   delay(150);
@@ -43,9 +38,7 @@ void setup() {
 }
 
 
-// =====================================================
-// MAIN LOOP
-// =====================================================
+// Main Loop  
 
 void loop() {
 
@@ -55,7 +48,7 @@ void loop() {
   Serial.print(distance);
   Serial.println(" cm");
 
-  // Check for invalid sensor reading
+  // Error check
   if (distance == -1) {
 
     noTone(Buzzer);
@@ -66,20 +59,17 @@ void loop() {
     return;
   }
 
-  // Give warning according to distance
   alertUser(distance);
 }
 
 
-// =====================================================
-// GET DISTANCE
-// =====================================================
+// Get Distance
 
 int getDistance() {
 
   unsigned long duration;
 
-  // Send trigger pulse
+  // Send Trig out
   digitalWrite(Trig, LOW);
   delayMicroseconds(2);
 
@@ -88,24 +78,22 @@ int getDistance() {
 
   digitalWrite(Trig, LOW);
 
-  // Measure echo
+  // Get Echo
   duration = pulseIn(Echo, HIGH, 30000);
 
-  // No echo received
+  // If no echo received
   if (duration == 0) {
     return -1;
   }
 
-  // Convert time into distance
+  // Convert time into distance, 343 metre per second is the speed of sound in air
   int distance = (duration * 0.0343) / 2;
 
   return distance;
 }
 
 
-// =====================================================
-// AVERAGE MULTIPLE READINGS
-// =====================================================
+// Averaging (Filtering) the mean distance obtained
 
 int getAverageDistance() {
 
@@ -136,16 +124,11 @@ int getAverageDistance() {
 }
 
 
-// =====================================================
-// BUZZER ALERT SYSTEM
-// =====================================================
+// Buzzer Alert System
 
 void alertUser(int distance) {
 
-  // -----------------------------------------
-  // SAFE ZONE
-  // More than 100 cm
-  // -----------------------------------------
+  // Safe zone is more than 100 cms
 
   if (distance > SAFE_DISTANCE) {
 
@@ -155,10 +138,7 @@ void alertUser(int distance) {
   }
 
 
-  // -----------------------------------------
-  // WARNING ZONE
-  // 60 - 100 cm
-  // -----------------------------------------
+  // Warning Zone is 60 to 100 cms
 
   else if (distance > WARNING_DISTANCE) {
 
@@ -172,10 +152,7 @@ void alertUser(int distance) {
   }
 
 
-  // -----------------------------------------
-  // DANGER ZONE
-  // 30 - 60 cm
-  // -----------------------------------------
+  // Danger Zone is 30 to 60 cms
 
   else if (distance > DANGER_DISTANCE) {
 
@@ -189,10 +166,7 @@ void alertUser(int distance) {
   }
 
 
-  // -----------------------------------------
-  // CRITICAL ZONE
-  // 15 - 30 cm
-  // -----------------------------------------
+  // Critical Zone is 15 to 30 cms
 
   else if (distance > CRITICAL_DISTANCE) {
 
@@ -206,10 +180,7 @@ void alertUser(int distance) {
   }
 
 
-  // -----------------------------------------
-  // VERY CLOSE
-  // 5 - 15 cm
-  // -----------------------------------------
+  // Very Close is 5 to 15 cms
 
   else if (distance >= MIN_DISTANCE) {
 
@@ -223,10 +194,7 @@ void alertUser(int distance) {
   }
 
 
-  // -----------------------------------------
-  // TOO CLOSE / INVALID RANGE
-  // Less than 5 cm
-  // -----------------------------------------
+  // Invalid Range is less than 5 cms
 
   else {
 
