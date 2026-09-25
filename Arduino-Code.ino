@@ -1,4 +1,4 @@
-// ARDUINO BLIND ASSISTIVE HAT : VER-2
+// ARDUINO BLIND ASSISTIVE HAT : VER-3
 // Datathon'26 - SRM
 
 // Define all pins
