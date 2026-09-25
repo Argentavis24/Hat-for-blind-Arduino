@@ -7,11 +7,11 @@ const int Echo = 3;
 const int Buzzer = 8;
 
 // All distance is in cms
-const int SAFE_DCEISTAN = 100;
-const int WARNING_DISTANCE = 60;
-const int DANGER_DISTANCE = 30;
-const int CRITICAL_DISTANCE = 15;
-const int MIN_DISTANCE = 5;
+const int safe_dist = 100;
+const int warn_dist = 60;
+const int danger_dist = 30;
+const int crit_dist = 15;
+const int min_dist = 5;
 
 // Setup
 
@@ -130,7 +130,7 @@ void alertUser(int distance) {
 
   // Safe zone is more than 100 cms
 
-  if (distance > SAFE_DISTANCE) {
+  if (distance > safe_dist) {
 
     noTone(Buzzer);
 
@@ -140,7 +140,7 @@ void alertUser(int distance) {
 
   // Warning Zone is 60 to 100 cms
 
-  else if (distance > WARNING_DISTANCE) {
+  else if (distance > warn_dist) {
 
     tone(Buzzer, 1800);
 
@@ -154,7 +154,7 @@ void alertUser(int distance) {
 
   // Danger Zone is 30 to 60 cms
 
-  else if (distance > DANGER_DISTANCE) {
+  else if (distance > danger_dist) {
 
     tone(Buzzer, 2000);
 
@@ -168,7 +168,7 @@ void alertUser(int distance) {
 
   // Critical Zone is 15 to 30 cms
 
-  else if (distance > CRITICAL_DISTANCE) {
+  else if (distance > crit_dist) {
 
     tone(Buzzer, 2500);
 
@@ -182,7 +182,7 @@ void alertUser(int distance) {
 
   // Very Close is 5 to 15 cms
 
-  else if (distance >= MIN_DISTANCE) {
+  else if (distance >= min_dist) {
 
     tone(Buzzer, 3000);
 
