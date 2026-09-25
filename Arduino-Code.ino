@@ -1,9 +1,9 @@
-// ARDUINO BLIND ASSISTIVE HAT : VER-3
+// ARDUINO BLIND ASSISTIVE HAT : VER-finale
 // Datathon'26 - SRM
 
 // Define all pins
-const int Trig = 2;
-const int Echo = 3;
+const int Trig = 3;
+const int Echo = 2;
 const int Buzzer = 8;
 
 // All distance is in cms
@@ -14,7 +14,6 @@ const int crit_dist = 15;
 const int min_dist = 5;
 
 // Setup
-
 void setup() {
 
   Serial.begin(9600);
@@ -39,7 +38,6 @@ void setup() {
 
 
 // Main Loop  
-
 void loop() {
 
   int distance = getAverageDistance();
@@ -53,7 +51,7 @@ void loop() {
 
     noTone(Buzzer);
 
-    Serial.println("Sensor error / no echo");
+    Serial.println("Out of Bounds");
 
     delay(100);
     return;
@@ -79,7 +77,7 @@ int getDistance() {
   digitalWrite(Trig, LOW);
 
   // Get Echo
-  duration = pulseIn(Echo, HIGH, 30000);
+  duration = pulseIn(Echo, HIGH, 30000);         //30K is in microseconds
 
   // If no echo received
   if (duration == 0) {
